@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'fstname',
         'email',
-        'passwd',
+        'password',
         'phone',
         'profil_path',
         'is_admin'
@@ -79,5 +79,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'passwd' => 'hashed',
         ];
+
+    }
+
+     /**
+     * Override the method Auth uses to get the user's password.
+     */
+    public function getAuthPassword()
+    {
+        return $this->passwd;
+    }
+
+    /**
+     * Mutator : quand on assigne à $user->password, on le hash et on l'enregistre dans 'passwd'
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['passwd'] = Hash::make($value);
     }
 }
